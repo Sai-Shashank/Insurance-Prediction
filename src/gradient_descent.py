@@ -8,9 +8,6 @@ from matplotlib import pyplot
 def error(y,yi):
     return (np.mean((y-yi)**2))**(1/2)
 
-def pred_y(beta,x):
-    return (x.dot(beta))
-
 def gd(x, y_org, rate, num_iter):
     '''
     Function to apply Gradient descent on training data, and find beta 
@@ -27,11 +24,8 @@ def gd(x, y_org, rate, num_iter):
         if(count%50==0):
             print(error(y_org,x.dot(beta)))
     print("\n")
-    y_train=x.dot(beta)
-
-    error_in_train = error(y_train,y_org)
-
-    return (error_in_train,beta)
+    
+    return beta
 
 def process(data, learning_rate, num_iter):
     # Training data part
@@ -42,8 +36,11 @@ def process(data, learning_rate, num_iter):
     x=np.append(ones,x,axis=1)
     y_org=np.reshape(y_org,(x.shape[0],1))
 
-    (error_in_train, beta )= gd(x, y_org, learning_rate, num_iter)
-
+    beta = gd(x, y_org, learning_rate, num_iter)
+    
+    y_train = x.dot(beta)
+    error_in_train = error(y_train,y_org)
+    
     # Test data part
     x_test=testing_data[:,0:3]
     ones=np.ones((x_test.shape[0],1))
