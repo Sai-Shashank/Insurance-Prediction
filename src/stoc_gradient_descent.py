@@ -4,6 +4,7 @@ import numpy as np
 import pre_processing
 from numpy.linalg import inv
 from matplotlib import pyplot
+import random
 
 def error(y_given,y_pred,m):
     error=((y_given-y_pred)*(y_given-y_pred))/(2*m)
@@ -16,11 +17,11 @@ def pred_y(beta,x):
 def sgd(x, y, rate):
     beta=np.ones((4,1))
     for iteration in range(0,10000):
-        for i in range(len(x)):
-            xi = x[i].reshape((1,4))
-            yi = y[i].reshape((1,1))
-            diff=xi.dot(beta)-yi
-            beta = beta-rate*(xi.T.dot(diff))
+        i= random.randint(0,935)
+        xi = x[i].reshape((1,4))
+        yi = y[i].reshape((1,1))
+        diff=xi.dot(beta)-yi
+        beta = beta-rate*(xi.T.dot(diff))
             
 
         if(iteration%50==0):
@@ -43,5 +44,5 @@ def first():
     learning_rate=0.1/936
     sgd(x,y,learning_rate)
 
-first()
 
+first()
