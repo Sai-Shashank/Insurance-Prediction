@@ -18,12 +18,12 @@ for i in range(0,20):
     (training_data,testing_data)=pre_processing.train_test_split(data)
     x=training_data[:,0:3]
     y_org=training_data[:,3]
-    ones=np.ones((936,1))
+    ones=np.ones((x.shape[0],1))
     x=np.append(ones,x,axis=1)
     count=0
     beta=np.ones((4,1))
-    rate=0.1/936
-    y_org=np.reshape(y_org,(936,1))
+    rate=0.1/(x.shape[0])
+    y_org=np.reshape(y_org,(x.shape[0],1))
     y_train=x.dot(beta)
     diff=y_train-y_org
     for j in range(0,10000):
