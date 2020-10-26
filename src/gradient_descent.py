@@ -10,23 +10,17 @@ def error(y,yi):
 
 def pred_y(beta,x):
     return (x.dot(beta))
-data=pd.read_csv("insurance.txt").to_numpy()
-training_data=pre_processing.standardization(data)
-train_error=[]
-test_error=[]
-for i in range(0,20):
-    (training_data,testing_data)=pre_processing.train_test_split(data)
-    x=training_data[:,0:3]
-    y_org=training_data[:,3]
-    ones=np.ones((x.shape[0],1))
-    x=np.append(ones,x,axis=1)
-    count=0
+
+def gd(x, y_org, rate, num_iter):
+    '''
+    Function to apply Gradient descent on training data, and find beta 
+    '''
     beta=np.ones((4,1))
-    rate=0.1/(x.shape[0])
-    y_org=np.reshape(y_org,(x.shape[0],1))
+    rate=rate/(x.shape[0])
     y_train=x.dot(beta)
     diff=y_train-y_org
-    for j in range(0,10000):
+    count=0
+    for j in range(0,num_iter):
         beta=beta-rate*(x.T.dot(diff))
         diff=x.dot(beta)-y_org
         count=count+1
@@ -34,20 +28,58 @@ for i in range(0,20):
             print(error(y_org,x.dot(beta)))
     print("\n")
     y_train=x.dot(beta)
-    train_error.append(error(y_train,y_org))
+
+    error_in_train = error(y_train,y_org)
+
+    return (error_in_train,beta)
+
+def process(data, learning_rate, num_iter):
+    # Training data part
+    (training_data,testing_data)=pre_processing.train_test_split(data)
+    x=training_data[:,0:3]
+    y_org=training_data[:,3]
+    ones=np.ones((x.shape[0],1))
+    x=np.append(ones,x,axis=1)
+    y_org=np.reshape(y_org,(x.shape[0],1))
+
+    (error_in_train, beta )= gd(x, y_org, learning_rate, num_iter)
+
+    # Test data part
     x_test=testing_data[:,0:3]
     ones=np.ones((x_test.shape[0],1))
     x_test=np.append(ones,x_test,axis=1)
     y_test_org=testing_data[:,3]
-    y_test=x_test.dot(beta)
-    test_error.append(error(y_test,y_test_org))
 
-train_error_mean=np.mean(train_error)
-train_error_var=np.var(train_error)
-train_error_min=min(train_error)
-test_error_mean=np.mean(test_error)
-test_error_var=np.var(test_error)
-test_error_min=min(test_error)
+    y_test=x_test.dot(beta)
+    error_in_test = error(y_test,y_test_org)
+  
+    return error_in_train, error_in_test   
+
+def main():
+    data=pd.read_csv("insurance.txt").to_numpy()
+    _ = pre_processing.standardization(data)
+    learning_rate = float(input("Enter Learning rate: "))
+    num_iter = 10000
+
+    train_error=[] # A list of rmse for each model for training data
+    test_error=[] # A list of rmse for each model for test data
+    for i in range(0,20):
+        print("Model " + str(i+1))
+        (error_in_train, error_in_test) = process(data, learning_rate, num_iter)
+        train_error.append(error_in_train)
+        test_error.append(error_in_test)
+
+
+    train_error_mean=np.mean(train_error)
+    train_error_var=np.var(train_error)
+    train_error_min=min(train_error)
+    test_error_mean=np.mean(test_error)
+    test_error_var=np.var(test_error)
+    test_error_min=min(test_error)
+
+
+if __name__ == "__main__":
+    main()
     
     
 
