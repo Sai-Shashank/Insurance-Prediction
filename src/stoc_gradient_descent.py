@@ -1,5 +1,4 @@
 #file for Stochastic gradient descent
-
 import pandas as pd
 import numpy as np
 import pre_processing
@@ -45,11 +44,4 @@ def first():
     sgd(x,y,learning_rate)
 
 first()
-
-    
-
-    
-    
-
-
 
