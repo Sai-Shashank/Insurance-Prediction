@@ -28,12 +28,9 @@ def gd(x, y_org, rate, num_iter, isPlot):
         if(count%50==0):
             print(error(y_org,x.dot(beta)))
     if isPlot == 1:
-        # plt.figure()
         plt.plot(np.arange(num_iter), errorToPlot)
-        # plt.plot(np.arange(num_iter), errorToPlot, 'r', label='batch')
         plt.xlabel('iteration')
         plt.ylabel('RMSE')
-        # plt.show()
     print("\n")
     
     return beta
