@@ -22,8 +22,9 @@ def standardization(data):
 
 
 def train_test_split(data):
-        np.random.shuffle(data)
-        training_set=data[0:936,:]
+        np.random.shuffle(data)    # Shuffle datapoints randomly
+        # Split training and testing data in 70:30 ratio
+        training_set=data[0:936,:]      
         testing_set=data[936:,:]
         return (training_set,testing_set)
 
