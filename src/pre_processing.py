@@ -3,13 +3,12 @@ import numpy as np
 
 def normalization(data):
         # data is a numpy multidim array
-        processdata=data
         minval=np.amin(data,axis=0)     # axis=0 returns an array containing the smallest element for each column
         maxval=np.amax(data,axis=0)
         # Iterate over each column (feature) and compute the normalized value of each value in feature column
         for i in range(0,len(minval)):
-            processdata[:,i]=(data[:,i]-minval[i])/(maxval[i]-minval[i])
-        return processdata
+            data[:,i]=(data[:,i]-minval[i])/(maxval[i]-minval[i])
+        return data
 
 
 def standardization(data):
