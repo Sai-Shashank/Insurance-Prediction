@@ -2,7 +2,7 @@
 import numpy as np
 
 def normalization(data):
-        # data being imported as numpy array
+        # data is a numpy multidim array
         processdata=data
         minval=np.amin(data,axis=0)     # axis=0 returns an array containing the smallest element for each column
         maxval=np.amax(data,axis=0)
@@ -13,8 +13,10 @@ def normalization(data):
 
 
 def standardization(data):
-        meanval=np.mean(data,axis=0)
+        # data is a numpy multidim array
+        meanval=np.mean(data,axis=0)    # axis=0 returns an array containing the smallest element for each column
         std_dev=np.std(data,axis=0)
+        # Iterate over each column (feature) and compute the normalized value of each value in feature column
         for i in range(0,len(meanval)):
             data[:,i]=(data[:,i]-meanval[i])/(std_dev[i])  
         return data
