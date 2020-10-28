@@ -18,20 +18,20 @@ def sgd(x, y, rate, num_iter,isPlot):
     beta=np.ones((4,1))
     rate=rate/(x.shape[0])
     count=0
-    for j in range(0,num_iter):
+    for j in range(0,num_iter+1):
         i= random.randint(0,x.shape[0]-1)
         xi = x[i].reshape((1,4))
         yi = y[i].reshape((1,1))
         diff=xi.dot(beta)-yi
         beta = beta-rate*(xi.T.dot(diff))
         count=count+1
-        if isPlot == 1:
+        if isPlot == 1 and (j%x.shape[0])==0 and j!=0:
             errorToPlot.append(error(y,x.dot(beta)))
         if(count%50==0):
             print(error(y,x.dot(beta)))
     if isPlot == 1:
-        plt.plot(np.arange(num_iter), errorToPlot)
-        plt.xlabel('iteration')
+        plt.plot(np.arange(num_iter/x.shape[0]), errorToPlot)
+        plt.xlabel('epochs')
         plt.ylabel('RMSE')
     print("\n")
 
@@ -65,7 +65,7 @@ def main():
     data=pd.read_csv("insurance.txt").to_numpy()
     _ =pre_processing.standardization(data)
     learning_rate = float(input("Enter Learning rate: "))
-    num_iter = 10000
+    num_iter = 50*936
 
     train_error=[] # A list of rmse for each model for training data
     test_error=[] # A list of rmse for each model for test data
