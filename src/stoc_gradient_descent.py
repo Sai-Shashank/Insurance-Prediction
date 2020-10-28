@@ -14,6 +14,7 @@ def sgd(x, y, rate, num_iter,isPlot):
     '''
     Function to apply Stochastic Gradient descent algo on training data, and find beta 
     '''
+    origrate = rate
     errorToPlot = []
     beta=np.ones((4,1))
     rate=rate/(x.shape[0])
@@ -30,7 +31,7 @@ def sgd(x, y, rate, num_iter,isPlot):
         if(count%50==0):
             print(error(y,x.dot(beta)))
     if isPlot == 1:
-        plt.plot(np.arange(num_iter), errorToPlot)
+        plt.plot(np.arange(num_iter), errorToPlot, label = "Learning rate = " + str(origrate))
         plt.xlabel('iteration')
         plt.ylabel('RMSE')
     print("\n")
@@ -65,7 +66,7 @@ def main():
     data=pd.read_csv("insurance.txt").to_numpy()
     _ =pre_processing.standardization(data)
     learning_rate = float(input("Enter Learning rate: "))
-    num_iter = 10000
+    num_iter = 1000000
 
     train_error=[] # A list of rmse for each model for training data
     test_error=[] # A list of rmse for each model for test data
@@ -78,22 +79,25 @@ def main():
 
     # Plot of RMSE vs iteration
     plt.figure()
-    plt.subplot(2,2,1)
+    #plt.subplot(2,2,1)
     dummy = process(data, 0.1, num_iter,1)
-    plt.title('Learning Rate = 0.1')
+    #plt.title('Learning Rate = 0.1')
 
-    plt.subplot(2,2,2)
+    #plt.subplot(2,2,2)
     dummy = process(data, 0.01, num_iter,1)
-    plt.title('Learning Rate = 0.01')
+    #plt.title('Learning Rate = 0.01')
 
-    plt.subplot(2,2,3)
+    #plt.subplot(2,2,3)
     dummy = process(data, 0.001, num_iter,1)
-    plt.title('Learning Rate = 0.001')
+    #plt.title('Learning Rate = 0.001')
 
-    plt.subplot(2,2,4)
+    #plt.subplot(2,2,4)
     dummy = process(data, 0.0001, num_iter,1)
-    plt.title('Learning Rate = 0.0001')
-
+    #plt.title('Learning Rate = 0.0001')
+    plt.xlabel('Epochs')
+    plt.ylabel('RMSE')
+    plt.legend()
+    plt.tight_layout()
     plt.show()
     plt.close()
 
