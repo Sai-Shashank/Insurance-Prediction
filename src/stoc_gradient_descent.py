@@ -66,7 +66,7 @@ def main():
     data=pd.read_csv("insurance.txt").to_numpy()
     _ =pre_processing.standardization(data)
     learning_rate = float(input("Enter Learning rate: "))
-    num_iter = 1000000
+    num_iter = 10000
 
     train_error=[] # A list of rmse for each model for training data
     test_error=[] # A list of rmse for each model for test data
