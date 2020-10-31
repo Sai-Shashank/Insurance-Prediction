@@ -77,6 +77,17 @@ def main():
         train_error.append(error_in_train)
         test_error.append(error_in_test)
 
+    
+    train_error_mean=np.mean(train_error)
+    train_error_var=np.var(train_error)
+    train_error_min=min(train_error)
+    test_error_mean=np.mean(test_error)
+    test_error_var=np.var(test_error)
+    test_error_min=min(test_error)
+    print("\n")
+    print("Mean of test error: ",test_error_mean)
+    print("Variance of test error: ",test_error_var)
+
     # Plot of RMSE vs iteration
     plt.figure()
     #plt.subplot(2,2,1)
@@ -101,12 +112,6 @@ def main():
     plt.show()
     plt.close()
 
-    train_error_mean=np.mean(train_error)
-    train_error_var=np.var(train_error)
-    train_error_min=min(train_error)
-    test_error_mean=np.mean(test_error)
-    test_error_var=np.var(test_error)
-    test_error_min=min(test_error)
 
 if __name__ == "__main__":
     main()
