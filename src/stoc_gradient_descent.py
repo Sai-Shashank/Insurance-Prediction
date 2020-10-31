@@ -28,7 +28,7 @@ def sgd(x, y, rate, num_iter,isPlot):
         count=count+1
         if isPlot == 1:
             errorToPlot.append(error(y,x.dot(beta)))
-        if(count%50==0):
+        if((count%50==0) and (isPlot == 0)):
             print(error(y,x.dot(beta)))
     if isPlot == 1:
         plt.plot(np.arange(num_iter), errorToPlot, label = "Learning rate = " + str(origrate))
