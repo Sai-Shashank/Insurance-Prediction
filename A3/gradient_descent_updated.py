@@ -36,8 +36,7 @@ def gd(x, y_org, rate, num_iter,lam,Islasso):
             print(error(y_org,x.dot(beta)))
             
             
-    plt.plot(np.arange(num_iter), costs)
-    plt.show()
+    plt.plot(np.arange(num_iter), costs, label = 'λ = ' + "{:.2f}".format(lam))
     return beta
 
 def process(data, learning_rate, num_iter,degree,Islasso):
@@ -51,6 +50,10 @@ def process(data, learning_rate, num_iter,degree,Islasso):
     error_in_validation=[]
     lambdas=[]
 
+    plt.figure()
+    plt.xlabel('Iterations')
+    plt.ylabel('Cost')
+    plt.title('Learning Rate = '+str(learning_rate) )
     for j in np.arange(0.1, 1.0, 0.1):
         '''
         if(j==0):
@@ -60,7 +63,7 @@ def process(data, learning_rate, num_iter,degree,Islasso):
             lam=random.random()
             lambdas.append(lam)
         '''
-        print("for lam = ", j)
+        print("for lam = " + "{:.2f}".format(j))
         beta = gd(x, y_org, learning_rate, num_iter,j,1)
         
         y_train = x.dot(beta)
@@ -76,7 +79,10 @@ def process(data, learning_rate, num_iter,degree,Islasso):
     
         y_test=x_test.dot(beta)
         error_in_test.append(error(y_test,y_test_org))
-  
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+    plt.close()
     return error_in_train,error_in_validation,error_in_test,lambdas 
 
 def main():
