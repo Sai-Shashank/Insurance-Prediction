@@ -87,7 +87,6 @@ def process(data, learning_rate, num_iter,degree,Islasso):
 
 def main():
     data=pd.read_csv("insurance.txt").to_numpy()
-    _ = pre_processing.standardization(data)
     data=np.delete(data,2,1)
     learning_rate = float(input("Enter Learning rate: "))
     num_iter = 1000
