@@ -33,7 +33,8 @@ def train_test_split(data,degree):
         x=poly.fit_transform(x)
         data=np.append(x,y,axis=1)
         x_temp=data[:,1:]
-        x_temp=standardization(x_temp)
+        #x_temp=standardization(x_temp)
+        x_temp=normalization(x_temp)
         x=data[:,0]
         x=x.reshape((len(x),1))
         data=np.append(x,x_temp,axis=1)
