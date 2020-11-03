@@ -1,5 +1,7 @@
 
 import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+import pandas as pd
 
 def normalization(data):
         # data is a numpy multidim array
@@ -21,10 +23,31 @@ def standardization(data):
         return data
 
 
-def train_test_split(data):
+def train_test_split(data,degree):
         np.random.shuffle(data)    # Shuffle datapoints randomly
-        # Split training and testing data in 70:30 ratio
+        # Split training, validation and testing data in 70:20:10 ratio
+        poly = PolynomialFeatures(degree)
+        x=data[:,:-1]
+        y=data[:,-1]
+        y=np.reshape(y,(len(y),1))
+        x=poly.fit_transform(x)
+        data=np.append(x,y,axis=1)
+        x_temp=data[:,1:]
+        x_temp=standardization(x_temp)
+        x=data[:,0]
+        x=x.reshape((len(x),1))
+        data=np.append(x,x_temp,axis=1)
         training_set=data[0:936,:]      
-        testing_set=data[936:,:]
-        return (training_set,testing_set)
+        validation_set=data[936:1204,:]
+        testing_set=data[1204:,:]
+        return (training_set,validation_set,testing_set)
+"""
+data=pd.read_csv("insurance.txt").to_numpy()
+data=np.delete(data,2,1)
+training_set,validation_set,testing_set=train_test_split(data,8)
+"""
+
+
+
+
 
