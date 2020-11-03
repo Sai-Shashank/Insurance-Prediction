@@ -33,7 +33,7 @@ def gd(x, y_org, rate, num_iter,lam,Islasso):
         costs.append(error(y_org,x.dot(beta)))
         #print(beta)
         if(count%50==0):
-            print(error(y_org,x.dot(beta)))
+            print("{:.5f}".format(error(y_org,x.dot(beta))))
             
             
     plt.plot(np.arange(num_iter), costs, label = 'λ = ' + "{:.2f}".format(lam))
@@ -63,7 +63,7 @@ def process(data, learning_rate, num_iter,degree,Islasso):
             lam=random.random()
             lambdas.append(lam)
         '''
-        print("for lam = " + "{:.2f}".format(j))
+        print("λ = " + "{:.2f}".format(j))
         beta = gd(x, y_org, learning_rate, num_iter,j,1)
         
         y_train = x.dot(beta)
