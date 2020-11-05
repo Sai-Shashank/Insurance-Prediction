@@ -79,16 +79,20 @@ def process(data, learning_rate, num_iter,degree,Islasso,Isdegree):
     y_test=testing_data[:,-1]
     error_in_test=error(x_test.dot(min_beta),y_test)
 
+    minval=np.amin(data[:,-1])     
+    maxval=np.amax(data[:,-1])
+    z = x.dot(min_beta)
+    z= minval + z*(maxval-minval) 
     # Creating figure
     fig = plt.figure()
     ax = fig.gca(projection ="3d")
     xx = x_shuffled[:,0]
     yy = x_shuffled[:,1]
 
-    z = x.dot(min_beta)
+    
     z = np.asarray(z).squeeze()
-    ax.plot_trisurf(xx, yy,  z, edgecolor='none', alpha = 0.8, cmap='viridis',)
-    ax.scatter3D(xx, yy,  y_org, color = 'violet')
+    ax.plot_trisurf(xx, yy,  z, edgecolor='none', cmap='viridis')
+    # ax.scatter3D(xx, yy,  y_org, color = 'violet')
     plt.title("3D surface plot for degree " + str(degree))
     # show plot
     plt.xlabel("Age")
