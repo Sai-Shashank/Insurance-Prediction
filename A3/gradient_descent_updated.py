@@ -80,18 +80,16 @@ def process(data, learning_rate, num_iter,degree,Islasso,Isdegree):
     error_in_test=error(x_test.dot(min_beta),y_test)
 
     # Creating figure
-    fig = plt.figure(figsize = (10, 7))
-    ax = plt.axes(projection ="3d")
-    
-    # Creating plot
-    # X, Y = np.meshgrid(x_shuffled[:,0], x_shuffled[:,1])
-    # Axes3D.plot_surface(X, Y, x.dot(min_beta))
-    ax.scatter3D(x_shuffled[:,0], x_shuffled[:,1], x.dot(min_beta), color = "green")
-    plt.title("simple 3D scatter plot")
-    # ax = plt.axes(projection='3d')
-    
-    #ax.plot_surface(X, Y, x.dot(min_beta),cmap='viridis', edgecolor='none')
-    #ax.set_title('Surface plot')
+    fig = plt.figure()
+    ax = fig.gca(projection ="3d")
+    xx = x_shuffled[:,0]
+    yy = x_shuffled[:,1]
+
+    z = x.dot(min_beta)
+    z = np.asarray(z).squeeze()
+    ax.plot_trisurf(xx, yy,  z, edgecolor='none', alpha = 0.8, cmap='viridis',)
+    ax.scatter3D(xx, yy,  y_org, color = 'violet')
+    plt.title("3D surface plot for degree " + str(degree))
     # show plot
     plt.xlabel("Age")
     plt.ylabel("BMI")
@@ -143,9 +141,9 @@ def main():
     df3=pd.DataFrame({'Degree':all_errors[:,0],'lambda':all_errors[:,1],'train-error':all_errors[:,2],'validation-error':all_errors[:,3],'test-error':all_errors[:,4]})
     
     print("Lasso Regression With Regularisation")
-    print(df1)
+    #print(df1)
     print("Ridge Regression With Regularisation")
-    print(df2)
+    #print(df2)
     print("No Regularisation")
     print(df3)
     '''
