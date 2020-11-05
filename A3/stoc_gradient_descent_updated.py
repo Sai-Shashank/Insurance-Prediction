@@ -84,7 +84,7 @@ def main():
     data=pd.read_csv("insurance.txt").to_numpy()
     data=np.delete(data,2,1)
     learning_rate = float(input("Enter Learning rate: "))
-    num_iter = 5000
+    num_iter = 10000
 
     all_train_error=[] # A list of rmse for each model for training data
     all_test_error=[] # A list of rmse for each model for test data
@@ -95,6 +95,7 @@ def main():
         print("Model " + str(i+1))
         lambdas,beta,error_in_train,error_in_validation,error_in_test= process(data, learning_rate, num_iter,i+1,Islasso,1)
         all_errors.append([i+1,lambdas,error_in_train,error_in_validation,error_in_test])
+        data[:].dot(beta)
     all_errors=np.array(all_errors)
     df1=pd.DataFrame({'Degree':all_errors[:,0],'lambda':all_errors[:,1],'train-error':all_errors[:,2],'validation-error':all_errors[:,3],'test-error':all_errors[:,4]})
     

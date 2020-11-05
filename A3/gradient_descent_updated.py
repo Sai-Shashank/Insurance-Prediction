@@ -6,6 +6,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import random
 from sklearn.preprocessing import PolynomialFeatures
+from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D
 
 def error(y,yi):
     return (np.mean((y-yi)**2,dtype=np.float64))**(1/2)
@@ -43,7 +45,9 @@ def gd(x, y_org, rate, num_iter,lam,Islasso,Isdegree):
 
 def process(data, learning_rate, num_iter,degree,Islasso,Isdegree):
     # Training data part
-    (training_data,validation_data,testing_data)=pre_processing.train_test_split(data,degree)
+    
+    (training_data,validation_data,testing_data,x_shuffled)=pre_processing.train_test_split(data,degree)
+
     x=training_data[:,:-1]
     y_org=training_data[:,-1]
     y_org=np.reshape(y_org,(x.shape[0],1))
@@ -74,11 +78,33 @@ def process(data, learning_rate, num_iter,degree,Islasso,Isdegree):
     x_test=testing_data[:,:-1]
     y_test=testing_data[:,-1]
     error_in_test=error(x_test.dot(min_beta),y_test)
+
+    # Creating figure
+    fig = plt.figure(figsize = (10, 7))
+    ax = plt.axes(projection ="3d")
+    
+    # Creating plot
+    # X, Y = np.meshgrid(x_shuffled[:,0], x_shuffled[:,1])
+    # Axes3D.plot_surface(X, Y, x.dot(min_beta))
+    ax.scatter3D(x_shuffled[:,0], x_shuffled[:,1], x.dot(min_beta), color = "green")
+    plt.title("simple 3D scatter plot")
+    # ax = plt.axes(projection='3d')
+    
+    #ax.plot_surface(X, Y, x.dot(min_beta),cmap='viridis', edgecolor='none')
+    #ax.set_title('Surface plot')
+    # show plot
+    plt.xlabel("Age")
+    plt.ylabel("BMI")
+    ax.set_zlabel('Predicted Insurance Cost')
+    plt.show()
+    plt.close()
+
     return min_lambda,min_beta,error_in_train,error_in_validation,error_in_test
 
 def main():
     data=pd.read_csv("insurance.txt").to_numpy()
     data=np.delete(data,2,1)
+    
     learning_rate = float(input("Enter Learning rate: "))
     num_iter = 1000
 
@@ -86,24 +112,27 @@ def main():
     all_test_error=[] # A list of rmse for each model for test data
     all_validation_error=[]
     all_errors=[]
+    
     Islasso=1
+    '''
     for i in range(0,10):
         print("Model " + str(i+1))
         lambdas,beta,error_in_train,error_in_validation,error_in_test= process(data, learning_rate, num_iter,i+1,Islasso,1)
         all_errors.append([i+1,lambdas,error_in_train,error_in_validation,error_in_test])
     all_errors=np.array(all_errors)
     df1=pd.DataFrame({'Degree':all_errors[:,0],'lambda':all_errors[:,1],'train-error':all_errors[:,2],'validation-error':all_errors[:,3],'test-error':all_errors[:,4]})
-    
+    '''
     
     all_errors=[]
     Islasso=0
+    '''
     for i in range(0,10):
         print("Model " + str(i+1))
         lambdas,beta,error_in_train,error_in_validation,error_in_test= process(data, learning_rate, num_iter,i+1,Islasso,1)
         all_errors.append([i+1,lambdas,error_in_train,error_in_validation,error_in_test])
     all_errors=np.array(all_errors)
     df2=pd.DataFrame({'Degree':all_errors[:,0],'lambda':all_errors[:,1],'train-error':all_errors[:,2],'validation-error':all_errors[:,3],'test-error':all_errors[:,4]})
-    
+    '''
     
     all_errors=[]
     for i in range(0,10):
@@ -119,8 +148,18 @@ def main():
     print(df2)
     print("No Regularisation")
     print(df3)
+    '''
+    # Creating figure
+    fig = plt.figure(figsize = (10, 7))
+    ax = plt.axes(projection ="3d")
     
+    # Creating plot
+    ax.scatter3D(data[:,0], data[:,1], data[:,2], color = "green")
+    plt.title("simple 3D scatter plot")
     
+    # show plot
+    plt.show()
+    '''
     
     
     

@@ -27,6 +27,7 @@ def train_test_split(data,degree):
         np.random.shuffle(data)    # Shuffle datapoints randomly
         poly = PolynomialFeatures(degree)
         x=data[:,:-1] # Slice all rows and all columns except the last one
+        x_shuffled = x[0:936,:]
         y=data[:,-1] # Slice all rows and the last column
         y=np.reshape(y,(len(y),1))
         x=poly.fit_transform(x) 
@@ -41,7 +42,7 @@ def train_test_split(data,degree):
         training_set=data[0:936,:]      
         validation_set=data[936:1204,:]
         testing_set=data[1204:,:]
-        return (training_set,validation_set,testing_set)
+        return (training_set,validation_set,testing_set,x_shuffled)
 """
 data=pd.read_csv("insurance.txt").to_numpy()
 data=np.delete(data,2,1)
