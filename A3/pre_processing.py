@@ -25,19 +25,19 @@ def standardization(data):
 
 def train_test_split(data,degree):
         np.random.shuffle(data)    # Shuffle datapoints randomly
-        # Split training, validation and testing data in 70:20:10 ratio
         poly = PolynomialFeatures(degree)
-        x=data[:,:-1]
-        y=data[:,-1]
+        x=data[:,:-1] # Slice all rows and all columns except the last one
+        y=data[:,-1] # Slice all rows and the last column
         y=np.reshape(y,(len(y),1))
-        x=poly.fit_transform(x)
+        x=poly.fit_transform(x) 
         data=np.append(x,y,axis=1)
-        x_temp=data[:,1:]
+        x_temp=data[:,1:] # Slice all rows and all columns except the first one (all values as 1; normalization not needed)
         #x_temp=standardization(x_temp)
         x_temp=normalization(x_temp)
         x=data[:,0]
         x=x.reshape((len(x),1))
-        data=np.append(x,x_temp,axis=1)
+        data=np.append(x,x_temp,axis=1) # Normalized data
+        # Split training, validation and testing data in 70:20:10 ratio
         training_set=data[0:936,:]      
         validation_set=data[936:1204,:]
         testing_set=data[1204:,:]
